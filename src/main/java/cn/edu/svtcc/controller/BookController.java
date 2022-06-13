@@ -41,6 +41,7 @@ public class BookController {
         //获取图书分类类名列表
         ArrayList<CategoriesDO> categoriesDOS=categoriesService.categoriesList();
         PageBean pageBean=new PageBean(pageIndex,pageSize,totalRecord);
+
         pageBean.setList(bookList);
         request.setAttribute("pageBean", pageBean);
         request.setAttribute("state", "bookList");
