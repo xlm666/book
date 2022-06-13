@@ -1,5 +1,6 @@
 package cn.edu.svtcc.controller;
 
+import cn.edu.svtcc.dao.BookDao;
 import cn.edu.svtcc.domain.BooksDO;
 import cn.edu.svtcc.domain.CategoriesDO;
 import cn.edu.svtcc.domain.CommentsDO;
@@ -7,6 +8,9 @@ import cn.edu.svtcc.domain.PageBean;
 import cn.edu.svtcc.service.BookService;
 import cn.edu.svtcc.service.CommentsService;
 import cn.edu.svtcc.service.impl.CategoriesServiceImpl;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +27,8 @@ public class BookController {
     @Autowired
     private BookService bookService;
     @Autowired
+    private BookDao bookDao;
+    @Autowired
     private CommentsService commentsService;
     @Autowired
     CategoriesServiceImpl categoriesService;
@@ -37,11 +43,24 @@ public class BookController {
         int pageSize = 5;
         //获取图书列表
         bookList = bookService.getAllBooks();
+//        //利用PageHelper插件分页;此方法就是limit截取；
+//        PageHelper.startPage(0,3);//放在需要分类的查询前
+//        //注意:startPage只能用在dao（mapper）接口的方法才有效；
+//        List<BooksDO> bookList2=bookDao.getAllBooks();
+//        System.out.println("bookList.size() = " + bookList.size());
+//        PageInfo page=new PageInfo(bookList2);
+//        System.out.println("page.getList() = " + page.getList());
+//        System.out.println("page.getTotal() = " + page.getTotal());
+//        System.out.println("page.getPages() = " + page.getPages());
+//        System.out.println("page.getPageSize() = " + page.getPageSize());
+//        System.out.println("page.getNextPage() = " + page.getNextPage());
+//        System.out.println("page.getPrePage() = " + page.getPrePage());
+//        System.out.println("page.getPageNum() = " + page.getPageNum());
+
         int totalRecord=bookList.size();
         //获取图书分类类名列表
         ArrayList<CategoriesDO> categoriesDOS=categoriesService.categoriesList();
         PageBean pageBean=new PageBean(pageIndex,pageSize,totalRecord);
-
         pageBean.setList(bookList);
         request.setAttribute("pageBean", pageBean);
         request.setAttribute("state", "bookList");
